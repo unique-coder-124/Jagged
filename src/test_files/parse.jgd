@@ -1,0 +1,6 @@
+1+2*3-4
+true
+false
+nil
+int var1 = 2
+unsigned int x=7*signedtoUnsigned(var1)-add(1, 2)
