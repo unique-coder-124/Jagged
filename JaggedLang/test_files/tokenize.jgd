@@ -10,7 +10,8 @@
  )	
 "foo baz"
 42
-```
+```'h'
+'foo bar'
 1234.1234
 78.00000
 foo bar _hello
@@ -18,3 +19,4 @@ and, class, else, false, for, fun, if, nil, or, print, return, super, this, true
 |&||&&|&|||&&&
 /a+2=6
 \?~^%
+++ %= -- += -= *= /= == != < > <= >=

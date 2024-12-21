@@ -3,8 +3,15 @@
 #include "../GLOBALS.h"
 #include "ErrHandler.h"
 
+// Define DLL export/import based on the compilation
+#ifdef BUILD_DLL
+#define DLL_EXPORT __declspec(dllexport)
+#else
+#define DLL_EXPORT __declspec(dllimport)
+#endif
+
 // Class responsible for tokenizing code from a given string input.
-class CodeTokenizer {
+class DLL_EXPORT CodeTokenizer {
 public:
     // Default constructor for CodeTokenizer.
     CodeTokenizer();
@@ -62,4 +69,5 @@ private:
     std::string identifierName; // Name of the identifier
     std::pair<std::string, int> reservedName; // Reserved name with its type
     char terminator_char;  // Character used to terminate tokens
+    const std::unordered_map<std::string, std::pair<std::string, int>> reservedKeyWords; // Map of reserved words and their types
 };
