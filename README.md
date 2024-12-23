@@ -77,13 +77,13 @@ refer to the [Project Roadmap](#-project-roadmap) for info on feature i want to 
 		<blockquote>
 			<table>
 			<tr>
-				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/LICENSE.txt'>CMakeLists.txt</a></b></td>
+				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/CMakeLists.txt'>CMakeLists.txt</a></b></td>
 			</tr>
 			<tr>
 				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/LICENSE.txt'>LICENSE.txt</a></b></td>
 			</tr>
 			<tr>
-				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/LICENSE.txt'>Readme.md</a></b></td>
+				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/Readme.md'>Readme.md</a></b></td>
 			</tr>
 			</table>
 		</blockquote>
