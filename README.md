@@ -3,7 +3,7 @@
 </p>
 <p align="center"><h1 align="center">JAGGED</h1></p>
 <p align="center">
-	<em><code>A programming language thats rough around the edges</code></em>
+	<em><code>A programming language thats rough around the edges... and everywhere else.</code></em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/unique-coder-124/Jagged?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
@@ -38,7 +38,7 @@
 
 ##  Overview
 
-A random language i am making to learn more about how compilers and interpreters work.
+A random language i'm making to learn more about how compilers and interpreters work.
 really dirty source code.
 
 ---
@@ -77,8 +77,13 @@ refer to the [Project Roadmap](#-project-roadmap) for info on feature i want to 
 		<blockquote>
 			<table>
 			<tr>
+				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/LICENSE.txt'>CMakeLists.txt</a></b></td>
+			</tr>
+			<tr>
 				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/LICENSE.txt'>LICENSE.txt</a></b></td>
-				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/LICENSE.txt'>Readme.md</a></b></td>
 			</tr>
 			</table>
 		</blockquote>
@@ -89,7 +94,6 @@ refer to the [Project Roadmap](#-project-roadmap) for info on feature i want to 
 			<table>
 			<tr>
 				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/JaggedDLL/GLOBALS.h'>GLOBALS.h</a></b></td>
-				<td><code>❯ REPLACE-ME</code></td>
 			</tr>
 			</table>
 			<details>
@@ -98,19 +102,15 @@ refer to the [Project Roadmap](#-project-roadmap) for info on feature i want to 
 					<table>
 					<tr>
 						<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/JaggedDLL/classes/ErrHandler.cpp'>ErrHandler.cpp</a></b></td>
-						<td><code>❯ REPLACE-ME</code></td>
 					</tr>
 					<tr>
 						<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/JaggedDLL/classes/tokenizer.h'>tokenizer.h</a></b></td>
-						<td><code>❯ REPLACE-ME</code></td>
 					</tr>
 					<tr>
 						<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/JaggedDLL/classes/tokenizer.cpp'>tokenizer.cpp</a></b></td>
-						<td><code>❯ REPLACE-ME</code></td>
 					</tr>
 					<tr>
 						<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/JaggedDLL/classes/ErrHandler.h'>ErrHandler.h</a></b></td>
-						<td><code>❯ REPLACE-ME</code></td>
 					</tr>
 					</table>
 				</blockquote>
@@ -123,7 +123,6 @@ refer to the [Project Roadmap](#-project-roadmap) for info on feature i want to 
 			<table>
 			<tr>
 				<td><b><a href='https://github.com/unique-coder-124/Jagged/blob/master/JaggedLang/main.cpp'>main.cpp</a></b></td>
-				<td><code>❯ REPLACE-ME</code></td>
 			</tr>
 			</table>
 		</blockquote>
@@ -168,7 +167,7 @@ cmake ..
 make
 ```
 If on windows run:
-```
+```sh
 cmake -G "Unix Makefiles" ..
 make
 ```
@@ -198,11 +197,6 @@ For help run:
 Jagged --help
 ```
 
-###  Testing
-Run the test suite using the following command:
-echo 'INSERT-TEST-COMMAND-HERE'
-
----
 ##  Project Roadmap
 
 - [X] **`Task 1`**: <strike>tokenizer.</strike>
