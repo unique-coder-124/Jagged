@@ -3,7 +3,7 @@
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 2
-#define VERSION_PATCH 0
+#define VERSION_PATCH 2
 
 
 #define NONE 0
@@ -124,14 +124,17 @@
 
 #pragma region errors
 #define FILE_NOT_FOUND 1
-#define INVALID_ARG 28
+#define ERROR_OCCURED 10
+#define INVALID_ARGS 28
 #define UNTERMINATED_STR 34
 #define MALFORMED_CHAR 35
 #define UNEXPECTED_CHAR 36
 #define UNTERMINATED_PARENTHESES 41
 #define ERROR_OCCURED_IN_TOKENIZATION 65
+#define ERROR_OCCURED_IN_PARSING 66
 #define UNTERMINATED_BRACKET 93
 #define UNTERMINATED_BRACE 125
+#define UNIMPLIMENTED 255
 #pragma endregion
 
 #include <unordered_map>
@@ -142,3 +145,4 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <array>

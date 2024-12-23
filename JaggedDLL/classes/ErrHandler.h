@@ -26,23 +26,26 @@ public:
     // Prints help information for the program
     void printHelp();
 
+	// Prints version information for the program
+	void printVersion();
+
     // Prints an error message to the console
-    void printErr(std::string message);
+    void printErr(std::string message, bool doExit = false);
 
     // Prints an error message and exits the program with a specified exit code
     void printErr(std::string message, int exit_code);
 
     // Prints an error based on an error code
-    void printErr(int errCode);
+    void printErr(int errCode, bool doExit = false);
 
     // Prints an error based on an error code and the line number where the error occurred
-    void printErr(int errCode, int line_num);
+    void printErr(int errCode, int line_num, bool doExit = false);
 
     // Prints an error based on an error code and additional information
-    void printErr(int errCode, std::string additional_info);
+    void printErr(int errCode, std::string additional_info, bool doExit = false);
 
     // Prints an error based on an error code, line number, and additional information
-    void printErr(int errCode, int line_num, std::string additional_info);
+    void printErr(int errCode, int line_num, std::string additional_info, bool doExit = false);
 
 private:
     // Private members can be added here if needed in the future

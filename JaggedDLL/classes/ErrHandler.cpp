@@ -10,39 +10,27 @@ ErrHandler::~ErrHandler() {
 
 // Prints help information for the program
 void ErrHandler::printHelp() {
-	std::cout << "Usage: ./makeKode.exe <command> <filename>" << std::endl; // Print generic usage information for other commands
+	std::cout << "Usage: ./Jagged.exe <command> <filename> <[optional] flags>" << std::endl; // Print generic usage information for other commands
 	std::cout << "\ttokenize <filename>" << std::endl; // Print usage information for tokenizing a file
 	std::cout << "\tparse <filename>" << std::endl; // Print usage information for parsing a file
-	std::cout << "\trun <filename>" << std::endl; // Print usage information for running a file
-	std::cout << "\t\t--compile" << std::endl; // Print usage information for compiling a file before running
-	std::cout << "\t\t\t--output <output_filename>" << std::endl; // Print usage information for specifying an output filename
-	std::cout << "\t\t--run_only" << std::endl; // Print usage information for running a file without compiling
-	std::cout << "\tcompile <filename>" << std::endl; // Print usage information for compiling a file
-    std::cout << "\t\t--output <output_filename>" << std::endl; // Print usage information for specifying an output filename
-    std::cout << "\t\t-o <output_filename>" << std::endl; // Print usage information for specifying an output filename
-    std::cout << "\t\t--flags <compiler_flags>" << std::endl; // Print usage information for specifying compiler flags
-	std::cout << "\t\t--debug" << std::endl; // Print usage information for enabling debug mode
-	std::cout << "\t\t--compile_to_cpp" << std::endl; // Print usage information for compiling to C++ code
-    std::cout << "\t\t-c2c" << std::endl; // Print usage information for compiling to C++ code
-    std::cout << "\t\t--compile_to_obj" << std::endl; // Print usage information for compiling to object file
-	std::cout << "\t\t-c2o" << std::endl; // Print usage information for compiling to object file
-	std::cout << "\t\t--compile_to_exe" << std::endl; // Print usage information for compiling to executable file
-	std::cout << "\t\t-c2e" << std::endl; // Print usage information for compiling to executable file
-	std::cout << "\t\t--compile_to_dll" << std::endl; // Print usage information for compiling to dynamic link library
-	std::cout << "\t\t-c2d" << std::endl; // Print usage information for compiling to dynamic link library
-	std::cout << "\t\t--compile_to_static_lib" << std::endl; // Print usage information for compiling to static library
-	std::cout << "\t\t-c2s" << std::endl; // Print usage information for compiling to static library
-	std::cout << "\ttest <filename>" << std::endl; // Print usage information for testing a file
-    std::cout << "\tversion" << std::endl; // Print usage information for displaying the program version
-    std::cout << "\t-v" << std::endl; // Print usage information for displaying the program version
-    std::cout << "\thelp" << std::endl; // Print usage information for displaying help information
-    std::cout << "\t-h" << std::endl; // Print usage information for displaying help information
+	// std::cout << "\tbuild <filename>" << std::endl; // Print usage information for compiling a file
+	// std::cout << "\t\t--output <filename>" << std::endl; // Print usage information for specifying an output file
+	// std::cout << "\t\t-o <filename>" << std::endl; // Print usage information for specifying an output file
+	std::cout << "\t--version, -v" << std::endl; // Print usage information for displaying the version
+	std::cout << "\t--help, -h" << std::endl; // Print usage information for displaying help
+}
+
+void ErrHandler::printVersion() {
+	std::cout << "JaggedLang VERSION: v" << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << std::endl; // Print the version information
 }
 
 // Prints an error message to the standard error output
 // @param message: The error message to be printed
-void ErrHandler::printErr(std::string message) {
+void ErrHandler::printErr(std::string message, bool doExit) {
     std::cerr << RED_TEXT << message << RESET_TEXT << std::endl; // Output the error message in red
+	if (doExit) {
+		std::exit(ERROR_OCCURED); // Exit the program with an error code of 1
+	}
 }
 
 // Prints an error message and exits the program with a specified exit code
@@ -55,19 +43,23 @@ void ErrHandler::printErr(std::string message, int exit_code) {
 
 // Prints an error message based on the error code provided
 // @param errCode: The error code representing the type of error
-void ErrHandler::printErr(int errCode) {
+void ErrHandler::printErr(int errCode, bool doExit) {
     switch (errCode) {
+    case UNIMPLIMENTED:
+        std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature." << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
+        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        break;
     case FILE_NOT_FOUND:
-        std::cerr << BOLD_RED_TEXT << "Error reading file." << RESET_TEXT << std::endl; // Specific error message for file not found
+        std::cerr << BOLD_RED_TEXT << "Error: Error reading file." << RESET_TEXT << std::endl; // Specific error message for file not found
         std::exit(FILE_NOT_FOUND); // Exit with the file not found error code
         break;
     case ERROR_OCCURED_IN_TOKENIZATION:
 		std::cerr << BOLD_RED_TEXT << "Error occurred during tokenization." << RESET_TEXT << std::endl; // Specific error message for tokenization error
 		std::exit(ERROR_OCCURED_IN_TOKENIZATION); // Exit with the tokenization error code
 		break;
-    case INVALID_ARG:
-        std::cerr << BOLD_RED_TEXT << "Unknown command." << RESET_TEXT << std::endl; // Specific error message for invalid argument
-        std::exit(INVALID_ARG); // Exit with the invalid argument error code
+    case INVALID_ARGS:
+        std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments." << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
+        std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "Error: Unterminated string." << RESET_TEXT << std::endl; // Error for unterminated string
@@ -91,20 +83,27 @@ void ErrHandler::printErr(int errCode) {
         std::cerr << RED_TEXT << "Error: Unknown error occurred." << RESET_TEXT << std::endl; // Generic error message for unknown errors
         break;
     }
+	if (doExit) {
+		std::exit(errCode); // Exit with the error code provided
+	}
 }
 
 // Prints an error message based on the error code and line number provided
 // @param errCode: The error code representing the type of error
 // @param line_num: The line number where the error occurred
-void ErrHandler::printErr(int errCode, int line_num) {
+void ErrHandler::printErr(int errCode, int line_num, bool doExit) {
     switch (errCode) {
+    case UNIMPLIMENTED:
+        std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature." << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
+        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        break;
     case FILE_NOT_FOUND:
-        std::cerr << BOLD_RED_TEXT << "Error reading file." << RESET_TEXT << std::endl; // Specific error message for file not found
+        std::cerr << BOLD_RED_TEXT << "Error: Error reading file." << RESET_TEXT << std::endl; // Specific error message for file not found
         std::exit(FILE_NOT_FOUND); // Exit with the file not found error code
         break;
-    case INVALID_ARG:
-        std::cerr << BOLD_RED_TEXT << "Unknown command." << RESET_TEXT << std::endl; // Specific error message for invalid argument
-        std::exit(INVALID_ARG); // Exit with the invalid argument error code
+    case INVALID_ARGS:
+        std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments." << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
+        std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "[line " << line_num << "] Error: Unterminated string." << RESET_TEXT << std::endl; // Error for unterminated string with line number
@@ -128,20 +127,27 @@ void ErrHandler::printErr(int errCode, int line_num) {
         std::cerr << RED_TEXT << "[line " << line_num << "] Error: Unknown error occurred." << RESET_TEXT << std::endl; // Generic error message for unknown errors with line number
         break;
     }
+	if (doExit) {
+		std::exit(errCode); // Exit with the error code provided
+	}
 }
 
 // Prints an error message based on the error code and additional information provided
 // @param errCode: The error code representing the type of error
 // @param additional_info: Additional information to provide context for the error
-void ErrHandler::printErr(int errCode, std::string additional_info) {
+void ErrHandler::printErr(int errCode, std::string additional_info, bool doExit) {
     switch (errCode) {
+    case UNIMPLIMENTED:
+        std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature: " << additional_info << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
+        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        break;
     case FILE_NOT_FOUND:
-        std::cerr << BOLD_RED_TEXT << "Error reading file: " << additional_info << RESET_TEXT << std::endl; // Specific error message for file not found with additional info
+        std::cerr << BOLD_RED_TEXT << "Error: Error reading file: " << additional_info << RESET_TEXT << std::endl; // Specific error message for file not found with additional info
         std::exit(FILE_NOT_FOUND); // Exit with the file not found error code
         break;
-    case INVALID_ARG:
-        std::cerr << BOLD_RED_TEXT << "Unknown command: " << additional_info << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
-        std::exit(INVALID_ARG); // Exit with the invalid argument error code
+    case INVALID_ARGS:
+        std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments: " << additional_info << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
+        std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "Error: Unterminated string: " << additional_info << RESET_TEXT << std::endl; // Error for unterminated string with additional info
@@ -165,21 +171,28 @@ void ErrHandler::printErr(int errCode, std::string additional_info) {
         std::cerr << RED_TEXT << "Error: Unknown error occurred: " << additional_info << RESET_TEXT << std::endl; // Generic error message for unknown errors with additional info
         break;
     }
+	if (doExit) {
+		std::exit(errCode); // Exit with the error code provided
+	}
 }
 
 // Prints an error message based on the error code, line number, and additional information provided
 // @param errCode: The error code representing the type of error
 // @param line_num: The line number where the error occurred
 // @param additional_info: Additional information to provide context for the error
-void ErrHandler::printErr(int errCode, int line_num, std::string additional_info) {
+void ErrHandler::printErr(int errCode, int line_num, std::string additional_info, bool doExit) {
     switch (errCode) {
+    case UNIMPLIMENTED:
+        std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature: " << additional_info << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
+        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        break;
     case FILE_NOT_FOUND:
-        std::cerr << BOLD_RED_TEXT << "Error reading file: " << additional_info << RESET_TEXT << std::endl; // Specific error message for file not found with additional info
+        std::cerr << BOLD_RED_TEXT << "Error: Error reading file: " << additional_info << RESET_TEXT << std::endl; // Specific error message for file not found with additional info
         std::exit(FILE_NOT_FOUND); // Exit with the file not found error code
         break;
-    case INVALID_ARG:
-        std::cerr << BOLD_RED_TEXT << "Unknown command: " << additional_info << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
-        std::exit(INVALID_ARG); // Exit with the invalid argument error code
+    case INVALID_ARGS:
+        std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments: " << additional_info << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
+        std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "[line " << line_num << "] Error: Unterminated string: " << additional_info << RESET_TEXT << std::endl; // Error for unterminated string with line number and additional info
@@ -202,5 +215,8 @@ void ErrHandler::printErr(int errCode, int line_num, std::string additional_info
     default:
         std::cerr << RED_TEXT << "[line " << line_num << "] Error: Unknown error occurred: " << additional_info << RESET_TEXT << std::endl; // Generic error message for unknown errors with line number and additional info
         break;
+    }
+    if (doExit) {
+        std::exit(errCode); // Exit with the error code provided
     }
 }

@@ -16,82 +16,7 @@ CodeTokenizer::CodeTokenizer() :
     tokenizeStatus(0),
     err_type(NONE),
     debug(false),
-    additionalErrorInfo(""),
-    reservedKeyWords({
-        {"and", {"AND", RESERVED_AND}},
-        {"or", {"OR", RESERVED_OR}},
-        {"if", {"IF", RESERVED_IF}},
-        {"else", {"ELSE", RESERVED_ELSE}},
-        {"class", {"CLASS", RESERVED_CLASS}},
-        {"public", {"PUBLIC", RESERVED_PUBLIC}},
-        {"private", {"PRIVATE", RESERVED_PRIVATE}},
-        {"protected", {"PROTECTED", RESERVED_PROTECTED}},
-        {"nil", {"NIL", RESERVED_NIL}},
-        {"for", {"FOR", RESERVED_FOR}},
-        {"while", {"WHILE", RESERVED_WHILE}},
-        {"continue", {"CONTINUE", RESERVED_CONTINUE}},
-        {"break", {"BREAK", RESERVED_BREAK}},
-        {"print", {"PRINT", RESERVED_PRINT}},
-        {"super", {"SUPER", RESERVED_SUPER}},
-        {"this", {"THIS", RESERVED_THIS}},
-        {"return", {"RETURN", RESERVED_RETURN}},
-        {"void", {"VOID", RESERVED_VOID}},
-        {"struct", {"STRUCT", RESERVED_STRUCT}},
-        {"enum", {"ENUM", RESERVED_ENUM}},
-        {"union", {"UNION", RESERVED_UNION}},
-        {"int", {"INT", RESERVED_INT}},
-        {"long", {"LONG", RESERVED_LONG}},
-        {"short", {"SHORT", RESERVED_SHORT}},
-        {"signed", {"SIGNED", RESERVED_SIGNED}},
-        {"unsigned", {"UNSIGNED", RESERVED_UNSIGNED}},
-        {"float", {"FLOAT", RESERVED_FLOAT}},
-        {"double", {"DOUBLE", RESERVED_DOUBLE}},
-        {"char", {"CHAR", RESERVED_CHAR}},
-        {"str", {"STR", RESERVED_STR}},
-        {"bool", {"BOOL", RESERVED_BOOL}},
-        {"true", {"TRUE", RESERVED_TRUE}},
-        {"false", {"FALSE", RESERVED_FALSE}},
-        {"switch", {"SWITCH", RESERVED_SWITCH}},
-        {"case", {"CASE", RESERVED_CASE}},
-        {"default", {"DEFAULT", RESERVED_DEFAULT}},
-        {"delete", {"DELETE", RESERVED_DELETE}},
-        {"mutable", {"MUTABLE", RESERVED_MUTABLE}},
-        {"const", {"CONST", RESERVED_CONST}},
-        {"constexpr", {"CONSTEXPR", RESERVED_CONSTEXPR}},
-        {"friend", {"FRIEND", RESERVED_FRIEND}},
-        {"virtual", {"VIRTUAL", RESERVED_VIRTUAL}},
-        {"final", {"FINAL", RESERVED_FINAL}},
-        {"override", {"OVERRIDE", RESERVED_OVERRIDE}},
-        {"new", {"NEW", RESERVED_NEW}},
-        {"namespace", {"NAMESPACE", RESERVED_NAMESPACE}},
-        {"typeof", {"TYPEOF", RESERVED_TYPEOF}},
-        {"assert", {"ASSERT", RESERVED_ASSERT}},
-        {"template", {"TEMPLATE", RESERVED_TEMPLATE}},
-        {"typename", {"TYPENAME", RESERVED_TYPENAME}},
-        {"register", {"REGISTER", RESERVED_REGISTER}},
-        {"volatile", {"VOLATILE", RESERVED_VOLATILE}},
-        {"static", {"STATIC", RESERVED_STATIC}},
-        {"inline", {"INLINE", RESERVED_INLINE}},
-        {"alignas", {"ALIGNAS", RESERVED_ALIGNAS}},
-        {"alignof", {"ALIGNOF", RESERVED_ALIGNOF}},
-        {"noexcept", {"NOEXCEPT", RESERVED_NOEXCEPT}},
-        {"decltype", {"DECLTYPE", RESERVED_DECLTYPE}},
-        {"nullptr", {"NULLPTR", RESERVED_NULLPTR}},
-        {"thread_local", {"THREAD_LOCAL", RESERVED_THREAD_LOCAL}},
-        {"static_cast", {"STATIC_CAST", RESERVED_STATIC_CAST}},
-        {"dynamic_cast", {"DYNAMIC_CAST", RESERVED_DYNAMIC_CAST}},
-        {"reinterpret_cast", {"REINTERPRET_CAST", RESERVED_REINTERPRET_CAST}},
-        {"const_cast", {"CONST_CAST", RESERVED_CONST_CAST}},
-        {"try", {"TRY", RESERVED_TRY}},
-        {"catch", {"CATCH", RESERVED_CATCH}},
-        {"explicit", {"EXPLICIT", RESERVED_EXPLICIT}},
-        {"export", {"EXPORT", RESERVED_EXPORT}},
-        {"import", {"IMPORT", RESERVED_IMPORT}},
-        {"module", {"MODULE", RESERVED_MODULE}},
-        {"requires", {"REQUIRES", RESERVED_REQUIRES}},
-        {"with", {"WITH", RESERVED_WITH}},
-        {"from", {"FROM", RESERVED_FROM}}
-    }) {
+    additionalErrorInfo("") {
 }
 
 // Constructor with debug mode implementation
@@ -110,82 +35,7 @@ CodeTokenizer::CodeTokenizer(bool debug) :
     tokenizeStatus(0),
     err_type(NONE),
     debug(debug),
-    additionalErrorInfo(""),
-    reservedKeyWords({
-        {"and", {"AND", RESERVED_AND}},
-        {"or", {"OR", RESERVED_OR}},
-        {"if", {"IF", RESERVED_IF}},
-        {"else", {"ELSE", RESERVED_ELSE}},
-        {"class", {"CLASS", RESERVED_CLASS}},
-        {"public", {"PUBLIC", RESERVED_PUBLIC}},
-        {"private", {"PRIVATE", RESERVED_PRIVATE}},
-        {"protected", {"PROTECTED", RESERVED_PROTECTED}},
-        {"nil", {"NIL", RESERVED_NIL}},
-        {"for", {"FOR", RESERVED_FOR}},
-        {"while", {"WHILE", RESERVED_WHILE}},
-        {"continue", {"CONTINUE", RESERVED_CONTINUE}},
-        {"break", {"BREAK", RESERVED_BREAK}},
-        {"print", {"PRINT", RESERVED_PRINT}},
-        {"super", {"SUPER", RESERVED_SUPER}},
-        {"this", {"THIS", RESERVED_THIS}},
-        {"return", {"RETURN", RESERVED_RETURN}},
-        {"void", {"VOID", RESERVED_VOID}},
-        {"struct", {"STRUCT", RESERVED_STRUCT}},
-        {"enum", {"ENUM", RESERVED_ENUM}},
-        {"union", {"UNION", RESERVED_UNION}},
-        {"int", {"INT", RESERVED_INT}},
-        {"long", {"LONG", RESERVED_LONG}},
-        {"short", {"SHORT", RESERVED_SHORT}},
-        {"signed", {"SIGNED", RESERVED_SIGNED}},
-        {"unsigned", {"UNSIGNED", RESERVED_UNSIGNED}},
-        {"float", {"FLOAT", RESERVED_FLOAT}},
-        {"double", {"DOUBLE", RESERVED_DOUBLE}},
-        {"char", {"CHAR", RESERVED_CHAR}},
-        {"str", {"STR", RESERVED_STR}},
-        {"bool", {"BOOL", RESERVED_BOOL}},
-        {"true", {"TRUE", RESERVED_TRUE}},
-        {"false", {"FALSE", RESERVED_FALSE}},
-        {"switch", {"SWITCH", RESERVED_SWITCH}},
-        {"case", {"CASE", RESERVED_CASE}},
-        {"default", {"DEFAULT", RESERVED_DEFAULT}},
-        {"delete", {"DELETE", RESERVED_DELETE}},
-        {"mutable", {"MUTABLE", RESERVED_MUTABLE}},
-        {"const", {"CONST", RESERVED_CONST}},
-        {"constexpr", {"CONSTEXPR", RESERVED_CONSTEXPR}},
-        {"friend", {"FRIEND", RESERVED_FRIEND}},
-        {"virtual", {"VIRTUAL", RESERVED_VIRTUAL}},
-        {"final", {"FINAL", RESERVED_FINAL}},
-        {"override", {"OVERRIDE", RESERVED_OVERRIDE}},
-        {"new", {"NEW", RESERVED_NEW}},
-        {"namespace", {"NAMESPACE", RESERVED_NAMESPACE}},
-        {"typeof", {"TYPEOF", RESERVED_TYPEOF}},
-        {"assert", {"ASSERT", RESERVED_ASSERT}},
-        {"template", {"TEMPLATE", RESERVED_TEMPLATE}},
-        {"typename", {"TYPENAME", RESERVED_TYPENAME}},
-        {"register", {"REGISTER", RESERVED_REGISTER}},
-        {"volatile", {"VOLATILE", RESERVED_VOLATILE}},
-        {"static", {"STATIC", RESERVED_STATIC}},
-        {"inline", {"INLINE", RESERVED_INLINE}},
-        {"alignas", {"ALIGNAS", RESERVED_ALIGNAS}},
-        {"alignof", {"ALIGNOF", RESERVED_ALIGNOF}},
-        {"noexcept", {"NOEXCEPT", RESERVED_NOEXCEPT}},
-        {"decltype", {"DECLTYPE", RESERVED_DECLTYPE}},
-        {"nullptr", {"NULLPTR", RESERVED_NULLPTR}},
-        {"thread_local", {"THREAD_LOCAL", RESERVED_THREAD_LOCAL}},
-        {"static_cast", {"STATIC_CAST", RESERVED_STATIC_CAST}},
-        {"dynamic_cast", {"DYNAMIC_CAST", RESERVED_DYNAMIC_CAST}},
-        {"reinterpret_cast", {"REINTERPRET_CAST", RESERVED_REINTERPRET_CAST}},
-        {"const_cast", {"CONST_CAST", RESERVED_CONST_CAST}},
-        {"try", {"TRY", RESERVED_TRY}},
-        {"catch", {"CATCH", RESERVED_CATCH}},
-        {"explicit", {"EXPLICIT", RESERVED_EXPLICIT}},
-        {"export", {"EXPORT", RESERVED_EXPORT}},
-        {"import", {"IMPORT", RESERVED_IMPORT}},
-        {"module", {"MODULE", RESERVED_MODULE}},
-        {"requires", {"REQUIRES", RESERVED_REQUIRES}},
-        {"with", {"WITH", RESERVED_WITH}},
-        {"from", {"FROM", RESERVED_FROM}}
-    }) {
+    additionalErrorInfo("") {
 }
 
 // Destructor implementation
@@ -221,11 +71,11 @@ int CodeTokenizer::tokenize(std::string& file_contents, std::vector<std::pair<st
         errors.push_back(tokenizeStatus);
     }
 
-    // Return -1 if there were errors, otherwise return 0
+    // Return ERROR_OCCURED_IN_TOKENIZATION if there were errors, otherwise return NONE
     if (!errors.empty()) {
-        return -1;
+        return ERROR_OCCURED_IN_TOKENIZATION;
     } else {
-        return 0;
+        return NONE;
     }
 }
 
@@ -237,7 +87,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
         if (debug) {
             std::cout << "EOF  null" << std::endl;
         }
-        return 0;
+        return NONE;
     }
     additionalErrorInfo = "";
     err_type = NONE;
@@ -324,7 +174,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
         // Handle numeric literals
         if (mode == NUM_LITERAL) {
             if (left_dp) {
-                if (isdigit(c)) {
+                if (isDigitFast(c)) {
                     last_tok += c;
                     break;
                 } else if (c == '.') {
@@ -341,7 +191,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                     last_tok = "";
                 }
             } else {
-                if (isdigit(c)) {
+                if (isDigitFast(c)) {
                     last_tok += c;
                     break;
                 } else {
@@ -356,7 +206,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
             }
         } else if (mode == IDENTIFIER) {
             // Handle identifiers and reserved keywords
-            if ((isdigit(c)) || ((bool)isalpha(c)) || (c == '_')) {
+            if ((isDigitFast(c)) || ((bool)isAlphaFast(c)) || (c == '_')) {
                 last_tok += c;
                 break;
             } else {
@@ -388,7 +238,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, EQUALITY_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == "!") {
                 if (debug) {
                     std::cout << "BANG_EQUAL != null" << std::endl;
@@ -396,7 +246,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, EQUALITY_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == "<") {
                 if (debug) {
                     std::cout << "LESS_EQUAL <= null" << std::endl;
@@ -404,7 +254,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, EQUALITY_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == ">") {
                 if (debug) {
                     std::cout << "GREATER_EQUAL >= null" << std::endl;
@@ -412,7 +262,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, EQUALITY_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == "+") {
                 if (debug) {
                     std::cout << "PLUS_EQUAL += null" << std::endl;
@@ -420,7 +270,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, ASSIGNMENT_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == "-") {
                 if (debug) {
                     std::cout << "MINUS_EQUAL -= null" << std::endl;
@@ -428,7 +278,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, ASSIGNMENT_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == "/") {
                 if (debug) {
                     std::cout << "DIVIDE_EQUAL /= null" << std::endl;
@@ -436,7 +286,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, ASSIGNMENT_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == "%") {
 				if (debug) {
 					std::cout << "MOD_EQUAL %= null" << std::endl;
@@ -444,7 +294,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
 				last_tok += c;
 				tokens.push_back({ last_tok, ASSIGNMENT_TOK });
 				last_tok = "";
-				return 0;
+				return NONE;
             } else if (last_tok == "*") {
                 if (debug) {
                     std::cout << "TIMES_EQUAL *= null" << std::endl;
@@ -452,7 +302,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, ASSIGNMENT_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             }
 		} else if (c == '-') {
             if (last_tok == "-") {
@@ -462,7 +312,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, DECREMENT_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             }
 		} else if (c == '+') {
 			if (last_tok == "+") {
@@ -472,7 +322,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
 				last_tok += c;
 				tokens.push_back({ last_tok, INCREMENT_TOK });
 				last_tok = "";
-				return 0;
+				return NONE;
 			}
 		} else if (c == '>') {
             if (last_tok == "-") {
@@ -482,7 +332,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, ARROW_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             }
         } else if (last_tok == "=") {
             if (debug) {
@@ -501,7 +351,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 }
                 tokens.push_back({ last_tok, EQUALITY_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else {
                 if (debug) {
                     std::cout << "LESS < null" << std::endl;
@@ -515,7 +365,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 }
                 tokens.push_back({ last_tok, EQUALITY_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             } else {
                 if (debug) {
                     std::cout << "GREATER > null" << std::endl;
@@ -547,11 +397,11 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
             if (last_tok == "/") {
                 mode = INLINE_COMMENT; // Start inline comment mode
                 last_tok = "";
-                return 0;
+                return NONE;
             } else if (last_tok == "*") {
 				mode = BLOCK_COMMENT; // Start block comment mode
 				last_tok = "";
-				return 0;
+				return NONE;
             }
         } else if (last_tok == "/") {
             if (debug) {
@@ -567,7 +417,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, LOGICAL_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             }
         } else if (last_tok == "|") {
             if (debug) {
@@ -583,7 +433,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok += c;
                 tokens.push_back({ last_tok, LOGICAL_OPERATOR_TOK });
                 last_tok = "";
-                return 0;
+                return NONE;
             }
         } else if (last_tok == "&") {
             if (debug) {
@@ -591,12 +441,12 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
             }
             tokens.push_back({ last_tok, LOGICAL_OPERATOR_TOK });
         }
-        if (isdigit(c)) {
+        if (isDigitFast(c)) {
             mode = NUM_LITERAL; // Switch to numeric literal mode
             left_dp = true; // Reset decimal point flag
             last_tok = "";
             last_tok += c; // Start building the number
-        } else if ((bool)isalpha(c) || c == '_') {
+        } else if ((bool)isAlphaFast(c) || c == '_') {
             mode = IDENTIFIER; // Switch to identifier mode
             last_tok = "";
             last_tok += c; // Start building the identifier
@@ -755,7 +605,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
             break;
         default:
             // Handle unexpected characters
-            if ((isdigit(c)) || ((bool)isalpha(c)) || (c == '_')) {
+            if ((isDigitFast(c)) || ((bool)isAlphaFast(c)) || (c == '_')) {
                 break;
             }
             last_tok = "";
@@ -768,4 +618,14 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
     }
 
     return err_type; // Return the error type
+}
+
+// Fast check for digit characters
+bool CodeTokenizer::isDigitFast(char c) {
+	return (c >= '0' && c <= '9');
+}
+
+// Fast check for alphabetic characters
+bool CodeTokenizer::isAlphaFast(char c) {
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
