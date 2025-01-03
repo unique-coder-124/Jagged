@@ -145,5 +145,6 @@
 #include <ostream>
 #include <sstream>
 #include <array>
+#include <stack>
 
 #include "miscellaneous.h"

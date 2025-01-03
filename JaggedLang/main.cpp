@@ -41,8 +41,8 @@ int main(int argc, char* argv[]) {
 	std::unordered_map<std::string, std::function<int(const std::string, ErrHandler)>> FuncMap = {
 		{ "tokenize", tokenize },
 		{ "parse", parse }
-        // { "run", run }
-		// { "build", build }
+		// { "run", run } // TODO: Implement run command
+		// { "build", build } // TODO: Implement build command
     }; // Map to store function pointers
 
 	std::unordered_map<std::string, std::function<void(ErrHandler)>> terminatorFlags = {
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 	std::unordered_map<std::string, std::function<void(ErrHandler)>> noArgFlags = {}; // Map to store functions that don't need arguments
 
 	std::unordered_map<std::string, std::function<int(const std::string, ErrHandler)>> argFlags = {
-        // { "--output", output }
+		// { "--output", output } // TODO: Implement output flag
     }; // Map to store functions that need arguments
 
     if (FuncMap.find(argv[1]) != FuncMap.end()) {
@@ -206,24 +206,26 @@ int parse(const std::string& fileName, ErrHandler err) {
 		JaggedTypes::Context contextHead(GLOBAL_CONTEXT, nullptr);
 
 		// Parse the tokens
-		parser.parse(tokens, JaggedTypes::Context(), err);
+		parser.parse(tokens, contextHead, err);
     } else {
-        std::cout << "EOF  null" << std::endl; // Indicate end of file if contents are empty
     }
     return UNIMPLEMENTED_FEATURE;
 }
 
-// int run(const std::string& fileName, ErrHandler err) {
-// 	std::cout << "Running input: " << fileName << std::endl; // Print the input to be run
-// }
+int run(const std::string& fileName, ErrHandler err) {
+    std::cout << "Running input: " << fileName << std::endl; // Print the input to be run
+	return UNIMPLEMENTED_FEATURE;
+}
 
-// int build(const std::string& fileName, ErrHandler err) {
-// 	std::cout << "Building input: " << fileName << std::endl; // Print the input to be built
-// }
+ int build(const std::string& fileName, ErrHandler err) {
+ 	std::cout << "Building input: " << fileName << std::endl; // Print the input to be built
+	return UNIMPLEMENTED_FEATURE;
+ }
 
-// int output(const std::string& fileName, ErrHandler err) {
-// 	std::cout << "Outputting to: " << fileName << std::endl; // Print the output file name
-// }
+ int output(const std::string& fileName, ErrHandler err) {
+ 	std::cout << "Outputting to: " << fileName << std::endl; // Print the output file name
+	return UNIMPLEMENTED_FEATURE;
+ }
 
 // Function to read the contents of a file and return it as a string
 std::string read_file_contents(const std::string& filename, ErrHandler& err) {

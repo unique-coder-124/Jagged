@@ -43,6 +43,19 @@ private:
 	// Current line number being processed.
 	int line_num;
 
+	// Last token processed, used for context in parsing.
+	JaggedTypes::Token last_tok;
+
+	// output stack
+	JaggedTypes::Expression output;
+
+	// holding stack
+	std::stack<JaggedTypes::Token> holding;
+	
+	// operator precedence
+	std::unordered_map<std::string, int> precedence = {
+	};
+
 	// Mode of operation for the parser (e.g., different parsing modes).
 	int mode;
 
