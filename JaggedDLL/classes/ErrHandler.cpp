@@ -45,9 +45,9 @@ void ErrHandler::printErr(std::string message, int exit_code) {
 // @param errCode: The error code representing the type of error
 void ErrHandler::printErr(int errCode, bool doExit) {
     switch (errCode) {
-    case UNIMPLIMENTED:
+    case UNIMPLEMENTED_FEATURE:
         std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature." << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
-        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        std::exit(UNIMPLEMENTED_FEATURE); // Exit with the unimplemented feature error code
         break;
     case FILE_NOT_FOUND:
         std::cerr << BOLD_RED_TEXT << "Error: Error reading file." << RESET_TEXT << std::endl; // Specific error message for file not found
@@ -61,6 +61,9 @@ void ErrHandler::printErr(int errCode, bool doExit) {
         std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments." << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
         std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
+    case UNIMPLEMENTED:
+		std::cerr << RED_TEXT << "Error: Unimplemented minor feature" << RESET_TEXT << std::endl; // Specific error message for unimplemented command
+		break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "Error: Unterminated string." << RESET_TEXT << std::endl; // Error for unterminated string
         break;
@@ -93,9 +96,9 @@ void ErrHandler::printErr(int errCode, bool doExit) {
 // @param line_num: The line number where the error occurred
 void ErrHandler::printErr(int errCode, int line_num, bool doExit) {
     switch (errCode) {
-    case UNIMPLIMENTED:
+    case UNIMPLEMENTED_FEATURE:
         std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature." << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
-        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        std::exit(UNIMPLEMENTED_FEATURE); // Exit with the unimplemented feature error code
         break;
     case FILE_NOT_FOUND:
         std::cerr << BOLD_RED_TEXT << "Error: Error reading file." << RESET_TEXT << std::endl; // Specific error message for file not found
@@ -105,6 +108,9 @@ void ErrHandler::printErr(int errCode, int line_num, bool doExit) {
         std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments." << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
         std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
+	case UNIMPLEMENTED:
+		std::cerr << RED_TEXT << "Error: Unimplemented minor feature" << RESET_TEXT << std::endl; // Specific error message for unimplemented command
+		break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "[line " << line_num << "] Error: Unterminated string." << RESET_TEXT << std::endl; // Error for unterminated string with line number
         break;
@@ -137,9 +143,9 @@ void ErrHandler::printErr(int errCode, int line_num, bool doExit) {
 // @param additional_info: Additional information to provide context for the error
 void ErrHandler::printErr(int errCode, std::string additional_info, bool doExit) {
     switch (errCode) {
-    case UNIMPLIMENTED:
+    case UNIMPLEMENTED_FEATURE:
         std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature: " << additional_info << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
-        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        std::exit(UNIMPLEMENTED_FEATURE); // Exit with the unimplemented feature error code
         break;
     case FILE_NOT_FOUND:
         std::cerr << BOLD_RED_TEXT << "Error: Error reading file: " << additional_info << RESET_TEXT << std::endl; // Specific error message for file not found with additional info
@@ -149,6 +155,9 @@ void ErrHandler::printErr(int errCode, std::string additional_info, bool doExit)
         std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments: " << additional_info << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
         std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
+	case UNIMPLEMENTED:
+		std::cerr << RED_TEXT << "Error: Unimplemented minor feature: " << additional_info << RESET_TEXT << std::endl; // Specific error message for unimplemented command with additional info
+		break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "Error: Unterminated string: " << additional_info << RESET_TEXT << std::endl; // Error for unterminated string with additional info
         break;
@@ -182,9 +191,9 @@ void ErrHandler::printErr(int errCode, std::string additional_info, bool doExit)
 // @param additional_info: Additional information to provide context for the error
 void ErrHandler::printErr(int errCode, int line_num, std::string additional_info, bool doExit) {
     switch (errCode) {
-    case UNIMPLIMENTED:
+    case UNIMPLEMENTED_FEATURE:
         std::cerr << BOLD_RED_TEXT << "Error: Unimplemented feature: " << additional_info << RESET_TEXT << std::endl; // Specific error message for unimplemented feature
-        std::exit(UNIMPLIMENTED); // Exit with the unimplemented feature error code
+        std::exit(UNIMPLEMENTED_FEATURE); // Exit with the unimplemented feature error code
         break;
     case FILE_NOT_FOUND:
         std::cerr << BOLD_RED_TEXT << "Error: Error reading file: " << additional_info << RESET_TEXT << std::endl; // Specific error message for file not found with additional info
@@ -194,6 +203,9 @@ void ErrHandler::printErr(int errCode, int line_num, std::string additional_info
         std::cerr << BOLD_RED_TEXT << "Error: Invalid arguments: " << additional_info << RESET_TEXT << std::endl; // Specific error message for invalid argument with additional info
         std::exit(INVALID_ARGS); // Exit with the invalid argument error code
         break;
+	case UNIMPLEMENTED:
+		std::cerr << RED_TEXT << "Error: Unimplemented minor feature: " << additional_info << RESET_TEXT << std::endl; // Specific error message for unimplemented command with additional info
+		break;
     case UNTERMINATED_STR:
         std::cerr << RED_TEXT << "[line " << line_num << "] Error: Unterminated string: " << additional_info << RESET_TEXT << std::endl; // Error for unterminated string with line number and additional info
         break;

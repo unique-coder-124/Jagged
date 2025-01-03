@@ -28,16 +28,17 @@ public:
     // Main function to tokenize the provided file contents.
     // Takes a reference to the file contents string, a vector to store tokens,
     // and an error handler object to manage errors.
-    int tokenize(std::string& file_contents, std::vector<std::pair<std::string, int>>& tokens, ErrHandler& err);
-
+    int tokenize(std::string& file_contents, JaggedTypes::TokenArr& tokens, ErrHandler& err);
 private:
     // Helper function to process a character during the tokenization loop.
     // Takes a character and a vector to store tokens.
-    int tokenizeLoop(char c, std::vector<std::pair<std::string, int>>& tokens);
+    int tokenizeLoop(char c, JaggedTypes::TokenArr& tokens);
 
-	// Helper function to process a character during the tokenization loop.
-	bool isDigitFast(char c);
-	bool isAlphaFast(char c);
+    // Fast check for digit characters
+    bool isDigitFast(char c);
+
+    // Fast check for alphabetic characters
+    bool isAlphaFast(char c);
 
     // Mode of operation for the tokenizer (e.g., different parsing modes).
     int mode;
@@ -48,11 +49,8 @@ private:
     // Last token processed, used for context in tokenization.
     std::string last_tok;
 
-    // Flag indicating if a left delimiter parenthesis is open.
+    // Flag indicating if digit is left of decimal point.
     bool left_dp;
-
-    // Vector to store error codes encountered during tokenization.
-    std::vector<int> errors;
 
     // Status of the tokenization process.
     int tokenizeStatus;
@@ -74,78 +72,79 @@ private:
     std::pair<std::string, int> reservedName; // Reserved name with its type
     char terminator_char;  // Character used to terminate tokens
     const std::unordered_map<std::string, std::pair<std::string, int>> reservedKeyWords = {
-        {"and", {"AND", RESERVED_AND}},
-        {"or", {"OR", RESERVED_OR}},
-        {"if", {"IF", RESERVED_IF}},
-        {"else", {"ELSE", RESERVED_ELSE}},
-        {"class", {"CLASS", RESERVED_CLASS}},
-        {"public", {"PUBLIC", RESERVED_PUBLIC}},
-        {"private", {"PRIVATE", RESERVED_PRIVATE}},
-        {"protected", {"PROTECTED", RESERVED_PROTECTED}},
-        {"nil", {"NIL", RESERVED_NIL}},
-        {"for", {"FOR", RESERVED_FOR}},
-        {"while", {"WHILE", RESERVED_WHILE}},
-        {"continue", {"CONTINUE", RESERVED_CONTINUE}},
-        {"break", {"BREAK", RESERVED_BREAK}},
-        {"print", {"PRINT", RESERVED_PRINT}},
-        {"super", {"SUPER", RESERVED_SUPER}},
-        {"this", {"THIS", RESERVED_THIS}},
-        {"return", {"RETURN", RESERVED_RETURN}},
-        {"void", {"VOID", RESERVED_VOID}},
-        {"struct", {"STRUCT", RESERVED_STRUCT}},
-        {"enum", {"ENUM", RESERVED_ENUM}},
-        {"union", {"UNION", RESERVED_UNION}},
-        {"int", {"INT", RESERVED_INT}},
-        {"long", {"LONG", RESERVED_LONG}},
-        {"short", {"SHORT", RESERVED_SHORT}},
-        {"signed", {"SIGNED", RESERVED_SIGNED}},
-        {"unsigned", {"UNSIGNED", RESERVED_UNSIGNED}},
-        {"float", {"FLOAT", RESERVED_FLOAT}},
-        {"double", {"DOUBLE", RESERVED_DOUBLE}},
-        {"char", {"CHAR", RESERVED_CHAR}},
-        {"str", {"STR", RESERVED_STR}},
-        {"bool", {"BOOL", RESERVED_BOOL}},
-        {"true", {"TRUE", RESERVED_TRUE}},
-        {"false", {"FALSE", RESERVED_FALSE}},
-        {"switch", {"SWITCH", RESERVED_SWITCH}},
-        {"case", {"CASE", RESERVED_CASE}},
-        {"default", {"DEFAULT", RESERVED_DEFAULT}},
-        {"delete", {"DELETE", RESERVED_DELETE}},
-        {"mutable", {"MUTABLE", RESERVED_MUTABLE}},
-        {"const", {"CONST", RESERVED_CONST}},
-        {"constexpr", {"CONSTEXPR", RESERVED_CONSTEXPR}},
-        {"friend", {"FRIEND", RESERVED_FRIEND}},
-        {"virtual", {"VIRTUAL", RESERVED_VIRTUAL}},
-        {"final", {"FINAL", RESERVED_FINAL}},
-        {"override", {"OVERRIDE", RESERVED_OVERRIDE}},
-        {"new", {"NEW", RESERVED_NEW}},
-        {"namespace", {"NAMESPACE", RESERVED_NAMESPACE}},
-        {"typeof", {"TYPEOF", RESERVED_TYPEOF}},
-        {"assert", {"ASSERT", RESERVED_ASSERT}},
-        {"template", {"TEMPLATE", RESERVED_TEMPLATE}},
-        {"typename", {"TYPENAME", RESERVED_TYPENAME}},
-        {"register", {"REGISTER", RESERVED_REGISTER}},
-        {"volatile", {"VOLATILE", RESERVED_VOLATILE}},
-        {"static", {"STATIC", RESERVED_STATIC}},
-        {"inline", {"INLINE", RESERVED_INLINE}},
         {"alignas", {"ALIGNAS", RESERVED_ALIGNAS}},
         {"alignof", {"ALIGNOF", RESERVED_ALIGNOF}},
-        {"noexcept", {"NOEXCEPT", RESERVED_NOEXCEPT}},
-        {"decltype", {"DECLTYPE", RESERVED_DECLTYPE}},
-        {"nullptr", {"NULLPTR", RESERVED_NULLPTR}},
-        {"thread_local", {"THREAD_LOCAL", RESERVED_THREAD_LOCAL}},
-        {"static_cast", {"STATIC_CAST", RESERVED_STATIC_CAST}},
-        {"dynamic_cast", {"DYNAMIC_CAST", RESERVED_DYNAMIC_CAST}},
-        {"reinterpret_cast", {"REINTERPRET_CAST", RESERVED_REINTERPRET_CAST}},
-        {"const_cast", {"CONST_CAST", RESERVED_CONST_CAST}},
-        {"try", {"TRY", RESERVED_TRY}},
+        {"and", {"AND", RESERVED_AND}},
+        {"assert", {"ASSERT", RESERVED_ASSERT}},
+        {"bool", {"BOOL", RESERVED_BOOL}},
+        {"break", {"BREAK", RESERVED_BREAK}},
+        {"case", {"CASE", RESERVED_CASE}},
         {"catch", {"CATCH", RESERVED_CATCH}},
+        {"char", {"CHAR", RESERVED_CHAR}},
+        {"class", {"CLASS", RESERVED_CLASS}},
+        {"const", {"CONST", RESERVED_CONST}},
+        {"const_cast", {"CONST_CAST", RESERVED_CONST_CAST}},
+        {"constexpr", {"CONSTEXPR", RESERVED_CONSTEXPR}},
+        {"continue", {"CONTINUE", RESERVED_CONTINUE}},
+        {"decltype", {"DECLTYPE", RESERVED_DECLTYPE}},
+        {"default", {"DEFAULT", RESERVED_DEFAULT}},
+        {"delete", {"DELETE", RESERVED_DELETE}},
+        {"double", {"DOUBLE", RESERVED_DOUBLE}},
+        {"dynamic_cast", {"DYNAMIC_CAST", RESERVED_DYNAMIC_CAST}},
+        {"else", {"ELSE", RESERVED_ELSE}},
+        {"enum", {"ENUM", RESERVED_ENUM}},
         {"explicit", {"EXPLICIT", RESERVED_EXPLICIT}},
         {"export", {"EXPORT", RESERVED_EXPORT}},
+        {"false", {"FALSE", RESERVED_FALSE}},
+        {"final", {"FINAL", RESERVED_FINAL}},
+        {"float", {"FLOAT", RESERVED_FLOAT}},
+        {"for", {"FOR", RESERVED_FOR}},
+        {"friend", {"FRIEND", RESERVED_FRIEND}},
+        {"from", {"FROM", RESERVED_FROM}},
+        {"if", {"IF", RESERVED_IF}},
         {"import", {"IMPORT", RESERVED_IMPORT}},
+        {"inline", {"INLINE", RESERVED_INLINE}},
+        {"int", {"INT", RESERVED_INT}},
+        {"long", {"LONG", RESERVED_LONG}},
         {"module", {"MODULE", RESERVED_MODULE}},
+        {"mutable", {"MUTABLE", RESERVED_MUTABLE}},
+        {"namespace", {"NAMESPACE", RESERVED_NAMESPACE}},
+        {"new", {"NEW", RESERVED_NEW}},
+        {"nil", {"NIL", RESERVED_NIL}},
+        {"not", {"NOT", RESERVED_NOT}},
+        {"noexcept", {"NOEXCEPT", RESERVED_NOEXCEPT}},
+        {"nullptr", {"NULLPTR", RESERVED_NULLPTR}},
+        {"or", {"OR", RESERVED_OR}},
+        {"override", {"OVERRIDE", RESERVED_OVERRIDE}},
+        {"print", {"PRINT", RESERVED_PRINT}},
+        {"private", {"PRIVATE", RESERVED_PRIVATE}},
+        {"protected", {"PROTECTED", RESERVED_PROTECTED}},
+        {"public", {"PUBLIC", RESERVED_PUBLIC}},
+        {"register", {"REGISTER", RESERVED_REGISTER}},
+        {"reinterpret_cast", {"REINTERPRET_CAST", RESERVED_REINTERPRET_CAST}},
         {"requires", {"REQUIRES", RESERVED_REQUIRES}},
-        {"with", {"WITH", RESERVED_WITH}},
-        {"from", {"FROM", RESERVED_FROM}}
+        {"return", {"RETURN", RESERVED_RETURN}},
+        {"short", {"SHORT", RESERVED_SHORT}},
+        {"signed", {"SIGNED", RESERVED_SIGNED}},
+        {"static", {"STATIC", RESERVED_STATIC}},
+        {"static_cast", {"STATIC_CAST", RESERVED_STATIC_CAST}},
+        {"str", {"STR", RESERVED_STR}},
+        {"struct", {"STRUCT", RESERVED_STRUCT}},
+        {"super", {"SUPER", RESERVED_SUPER}},
+        {"switch", {"SWITCH", RESERVED_SWITCH}},
+        {"template", {"TEMPLATE", RESERVED_TEMPLATE}},
+        {"this", {"THIS", RESERVED_THIS}},
+        {"thread_local", {"THREAD_LOCAL", RESERVED_THREAD_LOCAL}},
+        {"true", {"TRUE", RESERVED_TRUE}},
+        {"try", {"TRY", RESERVED_TRY}},
+        {"typename", {"TYPENAME", RESERVED_TYPENAME}},
+        {"typeof", {"TYPEOF", RESERVED_TYPEOF}},
+        {"union", {"UNION", RESERVED_UNION}},
+        {"unsigned", {"UNSIGNED", RESERVED_UNSIGNED}},
+        {"virtual", {"VIRTUAL", RESERVED_VIRTUAL}},
+        {"void", {"VOID", RESERVED_VOID}},
+        {"volatile", {"VOLATILE", RESERVED_VOLATILE}},
+        {"while", {"WHILE", RESERVED_WHILE}},
+        {"with", {"WITH", RESERVED_WITH}}
     }; // Map of reserved words and their types
 };

@@ -13,7 +13,7 @@ CodeTokenizer::CodeTokenizer() :
     identifierName(""),
     reservedName({ "", NONE }),
     terminator_char('"'),
-    tokenizeStatus(0),
+    tokenizeStatus(NONE),
     err_type(NONE),
     debug(false),
     additionalErrorInfo("") {
@@ -43,12 +43,15 @@ CodeTokenizer::~CodeTokenizer() {
 }
 
 // Tokenization function that processes the entire file contents
-int CodeTokenizer::tokenize(std::string& file_contents, std::vector<std::pair<std::string, int>>& tokens, ErrHandler& err) {
+int CodeTokenizer::tokenize(std::string& file_contents, JaggedTypes::TokenArr& tokens, ErrHandler& err) {
     // Tokenize the newline character
     tokenizeStatus = tokenizeLoop('\n', tokens);
     if (tokenizeStatus != NONE) {
-        err.printErr(tokenizeStatus, line_num, additionalErrorInfo);
-        errors.push_back(tokenizeStatus);
+        if (!additionalErrorInfo.empty()) {
+            err.printErr(tokenizeStatus, line_num, additionalErrorInfo);
+        } else {
+            err.printErr(tokenizeStatus, line_num);
+        }
     }
 
     // Process each character in the file contents
@@ -60,19 +63,21 @@ int CodeTokenizer::tokenize(std::string& file_contents, std::vector<std::pair<st
             } else {
                 err.printErr(tokenizeStatus, line_num);
             }
-            errors.push_back(tokenizeStatus);
         }
     }
 
     // Tokenize the end of file
     tokenizeStatus = tokenizeLoop(EOF, tokens);
     if (tokenizeStatus != NONE) {
-        err.printErr(tokenizeStatus, line_num, additionalErrorInfo);
-        errors.push_back(tokenizeStatus);
+        if (!additionalErrorInfo.empty()) {
+            err.printErr(tokenizeStatus, line_num, additionalErrorInfo);
+        } else {
+            err.printErr(tokenizeStatus, line_num);
+        }
     }
 
     // Return ERROR_OCCURED_IN_TOKENIZATION if there were errors, otherwise return NONE
-    if (!errors.empty()) {
+    if (err_present) {
         return ERROR_OCCURED_IN_TOKENIZATION;
     } else {
         return NONE;
@@ -80,7 +85,7 @@ int CodeTokenizer::tokenize(std::string& file_contents, std::vector<std::pair<st
 }
 
 // Helper function to process each character and generate tokens
-int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>& tokens) {
+int CodeTokenizer::tokenizeLoop(char c, JaggedTypes::TokenArr& tokens) {
     // Handle end of file
     if (c == EOF) {
         CodeTokenizer::tokenizeLoop('\n', tokens);
@@ -198,9 +203,9 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                     mode = NONE;
                     floatValue = std::stof(last_tok);
                     if (debug) {
-                        std::cout << "FLOAT " << last_tok << " " << floatValue << std::endl;
+                        std::cout << "DOUBLE " << last_tok << " " << floatValue << std::endl;
                     }
-                    tokens.push_back({ last_tok, FLOAT_TOK });
+                    tokens.push_back({ last_tok, DOUBLE_TOK });
                     last_tok = "";
                 }
             }
@@ -228,6 +233,7 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
                 last_tok = "";
             }
         }
+        __fallthrough;
     case NONE:
         // Handle various operators and symbols
         if (c == '=') {
@@ -622,10 +628,10 @@ int CodeTokenizer::tokenizeLoop(char c, std::vector<std::pair<std::string, int>>
 
 // Fast check for digit characters
 bool CodeTokenizer::isDigitFast(char c) {
-	return (c >= '0' && c <= '9');
+    return (c >= '0' && c <= '9');
 }
 
 // Fast check for alphabetic characters
 bool CodeTokenizer::isAlphaFast(char c) {
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }

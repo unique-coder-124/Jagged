@@ -4,6 +4,7 @@
 #include "GLOBALS.h" // Include global definitions and constants
 #include "classes/ErrHandler.h" // Include the error handling class
 #include "classes/tokenizer.h" // Include the tokenizer class
+#include "classes/parser.h" // Include the parser class
 
 // Function to read the contents of a file and return it as a string
 std::string read_file_contents(const std::string& filename, ErrHandler& err);
@@ -59,7 +60,7 @@ int main(int argc, char* argv[]) {
 
     if (FuncMap.find(argv[1]) != FuncMap.end()) {
         if ((currentCommand != "") || (argc < 3)) {
-            err.printErr(INVALID_ARGS, argv[1]);
+            err.printErr(INVALID_ARGS, argv[1], true);
 			if (argc < 3) {
 				err.printHelp();
 				return NONE;
@@ -71,7 +72,7 @@ int main(int argc, char* argv[]) {
         terminatorFlags[argv[1]](err);
         return NONE;
 	} else {
-		err.printErr(INVALID_ARGS, argv[1]);
+		err.printErr(INVALID_ARGS, argv[1], true);
 	}
 
 	// Print the command line arguments
@@ -81,13 +82,13 @@ int main(int argc, char* argv[]) {
             noArgFlags[argv[i]](err);
 		} else if (argFlags.find(argv[i]) != argFlags.end()) {
 			if (argFlagCommand != "") {
-				err.printErr(INVALID_ARGS, argv[i]);
+				err.printErr(INVALID_ARGS, argv[i], true);
 			} else {
 				argFlagCommand = argv[i];
 			}
 		} else {
             if ((currentCommand == "") && (argFlagCommand == "")) {
-				err.printErr(INVALID_ARGS, argv[i]);
+				err.printErr(INVALID_ARGS, argv[i], true);
             } else {
                 strArg = argv[i];
 				if (currentCommand != "") {
@@ -101,7 +102,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-	commandToExecute(); // Execute the command
+	int returnVal = commandToExecute(); // Execute the command
 
     // Read the contents of the specified file
     std::string file_contents = read_file_contents(argv[2], err);
@@ -110,77 +111,7 @@ int main(int argc, char* argv[]) {
     std::vector<std::pair<std::string, int>> tokens; // Vector to store tokens and their line numbers
 
     // Check if the command is to tokenize the file
-    if (command == "tokenize") {
-        CodeTokenizer tokenizer(true); // Create a tokenizer instance with debug mode enabled
-
-        // If the file contents are not empty, tokenize the contents
-        if (!file_contents.empty()) {
-            tokenizer.tokenize(file_contents, tokens, err); // Tokenize the file contents
-
-            // Output the tokens
-            std::cout << "-------------------------------------tokens-------------------------------------" << std::endl;
-
-            for (unsigned int i = 0; i < tokens.size(); i++) {
-                std::cout << tokens[i].first << std::endl; // Print each token
-            }
-
-            // Attempt to recreate the original code from tokens
-            std::cout << "------------------------------attempted_recreation------------------------------" << std::endl;
-
-            int num_lines = tokens[tokens.size() - 1].second; // Get the number of lines from the last token
-            size_t num_lines_str_len = std::to_string(num_lines).size(); // Length of the number of lines
-            size_t line_num_str_len; // Variable to hold the length of the current line number string
-
-            // Loop through tokens to recreate the original code
-            for (unsigned int i = 0; i < tokens.size(); i++) {
-                if (tokens[i].first == "\n") { // Check for newline tokens
-                    line_num_str_len = std::to_string(tokens[i].second).size(); // Get the length of the line number
-
-                    if (i == 0) {
-                        std::cout << "[" << tokens[i].second << "]"; // Print line number for the first line
-                    } else if (i == tokens.size() - 1) {
-                        continue; // Skip the last token if it's a newline
-                    } else {
-                        std::cout << "\n[" << tokens[i].second << "]"; // Print line number for subsequent lines
-                    }
-
-                    // Print spaces to align the line numbers
-                    for (int i = 0; i <= num_lines_str_len - line_num_str_len; i++) {
-                        std::cout << " ";
-                    }
-                } else {
-                    std::cout << tokens[i].first; // Print the token if it's not a newline
-                }
-            }
-
-            // Check if any errors occurred during tokenization
-            if (tokenizer.err_present) {
-                return ERROR_OCCURED_IN_TOKENIZATION; // Return error code if errors are present
-            }
-        } else {
-            std::cout << "EOF  null" << std::endl; // Indicate end of file if contents are empty
-        }
-    } else if (command == "parse") {
-        // -------------------- TODO: implement code parsing -------------------- //
-        CodeTokenizer tokenizer; // Create a tokenizer instance for parsing
-
-        // If the file contents are not empty, tokenize the contents
-        if (!file_contents.empty()) {
-            tokenizer.tokenize(file_contents, tokens, err); // Tokenize the file contents
-
-            // Check if any errors occurred during tokenization
-            if (tokenizer.err_present) {
-                return ERROR_OCCURED_IN_TOKENIZATION; // Return error code if errors are present
-            }
-        } else {
-            std::cout << "EOF  null" << std::endl; // Indicate end of file if contents are empty
-        }
-    } else {
-        // If the command is invalid, print an error and return an error code
-        err.printErr(INVALID_ARGS, command);
-        return INVALID_ARGS; // Return error code for invalid argument
-    }
-    return NONE; // Return NONE to indicate successful execution
+    return returnVal; // Return NONE to indicate successful execution
 }
 
 void version(ErrHandler err) {
@@ -192,13 +123,94 @@ void help(ErrHandler err) {
 }
 
 int tokenize(const std::string& fileName, ErrHandler err) {
-	std::cout << "Tokenizing input: " << fileName << std::endl; // Print the input to be tokenized
-    return UNIMPLIMENTED;
+    // Read the contents of the specified file
+    std::string file_contents = read_file_contents(fileName, err);
+
+    // Declare tokens vector
+    JaggedTypes::TokenArr tokens; // Vector to store tokens and their line numbers
+
+    CodeTokenizer tokenizer(true); // Create a tokenizer instance with debug mode enabled
+
+    // If the file contents are not empty, tokenize the contents
+    if (!file_contents.empty()) {
+        tokenizer.tokenize(file_contents, tokens, err); // Tokenize the file contents
+
+        // Output the tokens
+        std::cout << "-------------------------------------tokens-------------------------------------" << std::endl;
+
+        for (unsigned int i = 0; i < tokens.size(); i++) {
+            std::cout << tokens[i].first << std::endl; // Print each token
+        }
+
+        // Attempt to recreate the original code from tokens
+        std::cout << "------------------------------attempted_recreation------------------------------" << std::endl;
+
+        int num_lines = tokens[tokens.size() - 1].second; // Get the number of lines from the last token
+        size_t num_lines_str_len = std::to_string(num_lines).size(); // Length of the number of lines
+        size_t line_num_str_len; // Variable to hold the length of the current line number string
+
+        // Loop through tokens to recreate the original code
+        for (unsigned int i = 0; i < tokens.size(); i++) {
+            if (tokens[i].first == "\n") { // Check for newline tokens
+                line_num_str_len = std::to_string(tokens[i].second).size(); // Get the length of the line number
+
+                if (i == 0) {
+                    std::cout << "[" << tokens[i].second << "]"; // Print line number for the first line
+                } else if (i == tokens.size() - 1) {
+                    continue; // Skip the last token if it's a newline
+                } else {
+                    std::cout << "\n[" << tokens[i].second << "]"; // Print line number for subsequent lines
+                }
+
+                // Print spaces to align the line numbers
+                for (int i = 0; i <= num_lines_str_len - line_num_str_len; i++) {
+                    std::cout << " ";
+                }
+            } else {
+                std::cout << tokens[i].first; // Print the token if it's not a newline
+            }
+        }
+
+        // Check if any errors occurred during tokenization
+        if (tokenizer.err_present) {
+            return ERROR_OCCURED_IN_TOKENIZATION; // Return error code if errors are present
+        }
+    } else {
+        std::cout << "EOF  null" << std::endl; // Indicate end of file if contents are empty
+    }
+
+    return NONE;
 }
 
 int parse(const std::string& fileName, ErrHandler err) {
-	std::cout << "Parsing input: " << fileName << std::endl; // Print the input to be parsed
-    return UNIMPLIMENTED;
+    // -------------------- TODO: implement code parsing -------------------- //
+    // Read the contents of the specified file
+    std::string file_contents = read_file_contents(fileName, err);
+
+    // Declare tokens vector
+    JaggedTypes::TokenArr tokens; // Vector to store tokens and their line numbers
+
+    CodeTokenizer tokenizer; // Create a tokenizer instance for parsing
+	CodeParser parser(true); // Create a parser instance for parsing
+
+    // If the file contents are not empty, tokenize the contents
+    if (!file_contents.empty()) {
+        tokenizer.tokenize(file_contents, tokens, err); // Tokenize the file contents
+
+        // Check if any errors occurred during tokenization
+        if (tokenizer.err_present) {
+            return ERROR_OCCURED_IN_TOKENIZATION; // Return error code if errors are present
+        }
+
+        // declare context head
+		JaggedTypes::Context contextHead(GLOBAL_CONTEXT, nullptr);
+
+		// Parse the tokens
+		parser.parse(tokens, JaggedTypes::Context(), err);
+    } else {
+        std::cout << "EOF  null" << std::endl; // Indicate end of file if contents are empty
+    }
+    return UNIMPLEMENTED_FEATURE;
 }
 
 // int run(const std::string& fileName, ErrHandler err) {

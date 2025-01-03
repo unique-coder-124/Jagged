@@ -14,6 +14,7 @@ include_directories(${PROJECT_SOURCE_DIR}/JaggedDLL)
 set(DLL_SOURCES
     ${PROJECT_SOURCE_DIR}/JaggedDLL/classes/ErrHandler.cpp
     ${PROJECT_SOURCE_DIR}/JaggedDLL/classes/tokenizer.cpp
+    ${PROJECT_SOURCE_DIR}/JaggedDLL/classes/parser.cpp
 )
 
 # Add the DLL target
